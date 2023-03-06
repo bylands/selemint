@@ -1,12 +1,14 @@
 import pandas as pd
+import numpy as np
 import random
 from numpy.random import default_rng
 import calculate_fitness
 
 rng = default_rng()
 
-def get_offspring(pool: dict, choices_fd: pd.DataFrame, options: list[str], n_genes: int,
-                  multipliers: list[float], counter: list[float]) -> dict:
+rate = 0.05
+
+def get_offspring(pool: dict, choices_fd: pd.DataFrame, options, n_genes: int, multipliers: list[float]) -> dict:
     
     pool_keys = list(pool.keys())
     n_people = len(pool[pool_keys[0]][0])
@@ -23,8 +25,12 @@ def get_offspring(pool: dict, choices_fd: pd.DataFrame, options: list[str], n_ge
         off_fd2 = off2[0][pos:]
 
         off_fd = pd.concat([off_fd1, off_fd2])
-        fitness = calculate_fitness.calc_fitness(choices_fd, off_fd, options, n_people, multipliers, counter)
+
+        random_value = rng.random(size=n_people)
+        off_fd['module'] = (np.where(random_value < rate, random.choice(options), off_fd['module']))
+        
+        fitness = calculate_fitness.calc_fitness(choices_fd, off_fd, multipliers)
 
         offsprings[id] = [off_fd, fitness]
 
-    return offsprings
+    return offsprings    

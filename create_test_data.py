@@ -9,7 +9,7 @@ def get_choices(options: list[str], n_people: int) -> pd.DataFrame:
     n_options = len(options)
     weights = [3, 2, 1]
 
-    id_list = [f'ID{i}' for i in range(n_people)]
+    id_list = [f'ID{i:03}' for i in range(n_people)]
     first_list = []
     second_list = []
     third_list = []
