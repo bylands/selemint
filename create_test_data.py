@@ -26,7 +26,7 @@ def get_choices(options: list[str], n_people: int) -> pd.DataFrame:
         if first in seconds:
             seconds.remove(first)
 
-        first_seconds = set(seconds).union(first)
+        first_seconds = set(seconds).union([first])
         for item in first_seconds:
             if item in thirds:
                 thirds.remove(item)

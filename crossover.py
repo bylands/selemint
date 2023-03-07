@@ -6,7 +6,7 @@ import calculate_fitness
 
 rng = default_rng()
 
-rate = 0.05
+rate = 0.02
 
 def get_offspring(pool: dict, choices_fd: pd.DataFrame, options, n_genes: int, multipliers: list[float]) -> dict:
     
