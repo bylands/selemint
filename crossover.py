@@ -8,9 +8,10 @@ rng = default_rng()
 
 rate = 0.02
 
-def get_offspring(pool: dict, choices_fd: pd.DataFrame, options, n_genes: int, multipliers: list[float]) -> dict:
+def get_offspring(pool: dict, choices_fd: pd.DataFrame, blocks, n_genes: int, multipliers: list[float]) -> dict:
     
     pool_keys = list(pool.keys())
+    block_names = [block for block in blocks.keys()]
     n_people = len(pool[pool_keys[0]][0])
 
     offsprings = {}
@@ -26,10 +27,12 @@ def get_offspring(pool: dict, choices_fd: pd.DataFrame, options, n_genes: int, m
 
         off_fd = pd.concat([off_fd1, off_fd2])
 
-        random_value = rng.random(size=n_people)
-        off_fd['module'] = (np.where(random_value < rate, random.choice(options), off_fd['module']))
+        for block in blocks:
+            options = list(blocks[block].keys())
+            random_value = rng.random(size=n_people)
+            off_fd[f'{block}'] = (np.where(random_value < rate, random.choice(options), off_fd[f'{block}']))
         
-        fitness = calculate_fitness.calc_fitness(choices_fd, off_fd, multipliers)
+        fitness = calculate_fitness.calc_fitness(choices_fd, off_fd, block_names, multipliers)
 
         offsprings[id] = [off_fd, fitness]
 

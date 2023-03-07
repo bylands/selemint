@@ -1,15 +1,22 @@
 import pandas as pd
 import random
+from itertools import chain
 
-def get_gene(options: list[str], n_people: int) -> pd.DataFrame:
 
-    n_options = len(options)
-
-    factor = int(n_people / n_options * 1.2)
-    option_list = options * factor
+def get_gene(blocks: list[str], n_people: int) -> pd.DataFrame:
 
     id_list = [f'ID{i:03}' for i in range(n_people)]
 
-    module_list = random.sample(option_list, k=n_people)
+    dict = {}
 
-    return pd.DataFrame({'module': module_list}, index=id_list)
+    for block in blocks:
+        options = list(blocks[block].keys())
+        slots_per_option = list(blocks[block].values())
+
+        option_list = list(chain(*[[o] * n for o, n in zip(options, slots_per_option)]))
+
+        module_list = random.sample(option_list, k=n_people)
+
+        dict[f'{block}'] = module_list
+
+    return pd.DataFrame(dict, index=id_list)
