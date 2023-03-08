@@ -10,10 +10,8 @@ def get_gene(blocks: list[str], n_people: int) -> pd.DataFrame:
     dict = {}
 
     for block in blocks:
-        options = list(blocks[block].keys())
-        slots_per_option = list(blocks[block].values())
 
-        option_list = list(chain(*[[o] * n for o, n in zip(options, slots_per_option)]))
+        option_list = list(chain(*[[o] * n for o, n in blocks[block].items()]))
 
         module_list = random.sample(option_list, k=n_people)
 
