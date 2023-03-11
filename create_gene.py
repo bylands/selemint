@@ -5,8 +5,6 @@ from itertools import chain
 
 def get_gene(blocks: list[str], n_people: int) -> pd.DataFrame:
 
-    id_list = [f'ID{i:03}' for i in range(n_people)]
-
     dict = {}
 
     for block in blocks:
@@ -17,4 +15,4 @@ def get_gene(blocks: list[str], n_people: int) -> pd.DataFrame:
 
         dict[f'{block}'] = module_list
 
-    return pd.DataFrame(dict, index=id_list)
+    return pd.DataFrame(dict)
