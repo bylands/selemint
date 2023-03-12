@@ -14,5 +14,5 @@ def get_mating_pool(genes:dict, frac_elite: float, frac_lucky: float) -> dict:
 
     return pool
 
-def get_best(genes:dict):
-    return list(dict(sorted(genes.items(), key=lambda item: item[1][1], reverse=True)).keys())[0]
+def get_best(genes:dict, n):
+    return list(dict(sorted(genes.items(), key=lambda item: item[1][1], reverse=True)))[:n]
