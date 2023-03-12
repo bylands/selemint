@@ -1,6 +1,9 @@
 # Jupyter test notebooks
 # test*.ipynb
 
+# Data files
+priorities.json
+
 # Pickled data
 pickles/
 
