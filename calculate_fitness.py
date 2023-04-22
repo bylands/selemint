@@ -12,7 +12,6 @@ def calc_fitness(choices_df:pd.DataFrame, gene_df: pd.DataFrame, blocks, block_n
 
         counts = pd.DataFrame(gene_df[block].value_counts().sort_index())
         max_counts = pd.DataFrame({block: blocks[block].values()}, index=blocks[block].keys()).sort_index()
-
         if (counts[block] > max_counts[block]).any():
             return 0
 

@@ -1,0 +1,11 @@
+100 genes, initial score = 269600.0
+
+Optimising population:
+100%|██████████| 200/200 [1:48:23<00:00, 32.52s/it]100 genes, 200 iterations, score = 895550.0 (3.32x)
+
+companies   : first = 69 second = 23 third = 8 
+uni1        : first = 92 second = 17 third = 14 
+uni2        : first = 83 second = 21 third = 14 
+uni3        : first = 79 second = 16 third = 15 
+workshops   : first = 67 second = 11 third = 13 
+
