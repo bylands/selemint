@@ -1,0 +1,22 @@
+{
+"1": {"Zeix": 20, "SCS Supercomputing Systems": 20, "Kyburz": 20, "Siemens Mobility AG": 20, "Varian": 20, 
+             "MAN Energy Solutions":20, "Universitätsspital Zürich": 20, "Acht Grad Ost": 20, "Weidmann": 20, 
+             "True Wealth": 20, "PartnerRe": 20, "Sensirion": 20, "Hocoma": 20},
+"2": {"Architektur (ETH)": 30, "Biologie (ETH)": 60, "Raumbezogene Ingenieurwissenschaften (ETH)": 16, 
+        "Umweltingenieurwissenschaften (ETH)": 16, "Autonome Agile Drohnen (UZH)": 40, 
+        "Biodiversität in Zeit und Raum (UZH)": 24, "Einblick in aktuelle Forschung am Physik-Institut (UZH)": 20},
+"3": {"Chemie (ETH)": 25, "Materialwissenschaft (ETH)": 20, "Medizin studieren an der ETH": 50, 
+        "Pharmazeutische Wissenschaften (ETH)": 24, "Physik (ETH)": 20, "Illuminating the Chemistry of Life (UZH)": 30, 
+        "Was ist ein Programm? (UZH)": 20},
+"4": {"Aktuelle Forschung am CERN (UZH)": 30, "Hyperwürfel (UZH)": 20, "Krebsforschung (UZH)": 20, 
+        "Informatik (ETH)": 16, "Informationstechnologie und Elektrotechnik (ETH)": 30, 
+        "Maschineningenieurwissenschaften (ETH)": 40, "Mathematik (ETH)": 30},
+"5": {"Oberflächen und Farben": 20, "Fourier-Reihen": 20, "Datenexploration": 20, 
+             "Astrophysik, Planetologie und Raumfahrt": 20, "Molekulare Schalter – eine on/off-Beziehung": 12, 
+             "Let's Arduino": 12, "Die Hoffnung ist erneuerbar": 20, "Swiss Young Physicists' Tournament": 20, 
+             "Von Big Data und Künstlicher Intelligenz zur Umweltinformatik": 16, 
+             "Woher kommst du wirklich? Frag deine DNA!": 20, "Astronomie": 20, 
+             "Entsorgung, Recycling und Abwasserreinigung in Zürich": 16, 
+             "Praktische Molekulargenetik: Wolbachia – auf der Suche nach Bakterien-DNA in selbstgefangenen Insekt": 14, 
+             "Energiespeicherung – Vom Akku bis zum Pump-Speicherstausee": 20}
+}
