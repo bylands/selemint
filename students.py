@@ -35,20 +35,40 @@ def calc_weights(students: list, N: int) -> None:
             s['weight'] = len(s['prio1']) + len(s['prio2']) + len(s['prio3'])
 
 
+def get_students_stat(students: list, block: dict, block_nr: int) -> dict:
+    block_key = 'block'+str(block_nr)
+    prio1 = prio2 = prio3 = prio0 = 0
+
+    for student in students:
+        st = student[block_key]
+        choice = st['choice']
+
+        if choice in st['prio1']:
+            prio1 += 1
+        elif choice in st['prio2']:
+            prio2 += 1
+        elif choice in st['prio3']:
+            prio3 += 1
+        else:
+            prio0 += 1
+
+    return {'prio1': prio1, 'prio2': prio2, 'prio3': prio3, 'prio0': prio0}    
+
+
 def get_students_penalty(students: list, block_nr: int, fac2=1, fac3=2, fac0=10) -> int:
     block_key = 'block'+str(block_nr)
     penalty = 0
 
     for student in students:
-        s = student[block_key]
-        weight = s['weight']
-        choice = s['choice']
+        st = student[block_key]
+        weight = st['weight']
+        choice = st['choice']
 
-        if choice in s['prio1']:
+        if choice in st['prio1']:
             pass
-        elif choice in s['prio2']:
+        elif choice in st['prio2']:
             penalty += weight*fac2
-        elif choice in s['prio3']:
+        elif choice in st['prio3']:
             penalty += weight*fac3
         else:
             penalty += weight*fac0
@@ -56,8 +76,7 @@ def get_students_penalty(students: list, block_nr: int, fac2=1, fac3=2, fac0=10)
     return penalty
 
 
-def get_p0_students(block: dict, block_nr: int, students:list) -> list:
-    p0_students = []
+def update_students(block: dict, block_nr: int, students: list) -> None:
     block_key = 'block'+str(block_nr)
 
     for mod_key, mod_val in block.items():
@@ -65,11 +84,37 @@ def get_p0_students(block: dict, block_nr: int, students:list) -> list:
         for id in ids:
             st = next(s for s in students if s['ID'] == id)
             student = st[block_key]
+            student['choice'] = mod_key
 
-            if not (mod_key in student['prio1'] or 
-                    mod_key in student['prio2'] or 
-                    mod_key in student['prio3']):
-                p0_students.append({'ID': st['ID'], 'weight': student['weight']})
+
+# def get_p0_students(block: dict, block_nr: int, students: list) -> list:
+#     p0_students = []
+#     block_key = 'block'+str(block_nr)
+
+#     for mod_key, mod_val in block.items():
+#         ids = mod_val['IDs']
+#         for id in ids:
+#             st = next(s for s in students if s['ID'] == id)
+#             student = st[block_key]
+
+#             if not (mod_key in student['prio1'] or 
+#                     mod_key in student['prio2'] or 
+#                     mod_key in student['prio3']):
+#                 p0_students.append({'ID': st['ID'], 'weight': student['weight']})
+
+#     return p0_students
+
+
+def get_p0_students(block_nr: int, students: list) -> list:
+    p0_students = []
+    block_key = 'block'+str(block_nr)
+
+    for student in students:
+        st = student[block_key]
+        c = st['choice']
+        if not (c in st['prio1'] or
+                c in st['prio2'] or
+                c in st['prio3']):
+            p0_students.append({'ID': student['ID'], 'weight': st['weight']})
 
     return p0_students
-

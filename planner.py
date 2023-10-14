@@ -1,6 +1,8 @@
 from copy import deepcopy
 from random import choice, random
 
+from blocks import get_block_stat
+
 
 def get_try(block: dict, block_nr: int, students: dict, fac1=100, fac2=50, fac3=20):
 
@@ -35,3 +37,38 @@ def get_try(block: dict, block_nr: int, students: dict, fac1=100, fac2=50, fac3=
         try_block[c]['IDs'].append(student['ID'])
 
     return try_block
+
+
+def list_results(blocks: dict, block_nr: int, students: list, details=False) -> None:
+    block = blocks[block_nr-1]
+
+    stat = get_block_stat(block, block_nr, students)
+    stat_tot = stat['total']
+    p1 = stat_tot['totp1']
+    p2 = stat_tot['totp2']
+    p3 = stat_tot['totp3']
+    p0 = stat_tot['totp0']
+    tot = len(students)
+
+    print(f'block {block_nr}: p1: {p1/tot*100:.1f}%, p2: {p2/tot*100:.1f}%, p3: {p3/tot*100:.1f}%, p0: {p0/tot*100:.1f}%')
+
+    if details:  
+        for mod_key, mod_val in stat.items():
+            if mod_key != 'total':
+                slots = mod_val['slots']
+                p1 = mod_val['prio1']
+                max1 = mod_val['max1']
+                p2 = mod_val['prio2']
+                max2 = mod_val['max2']
+                p3 = mod_val['prio3']
+                max3 = mod_val['max3']
+                p0 = mod_val['prio0']
+                tot = p1+p2+p3+p0
+
+                print(f'{mod_key}: {tot}/{slots}, '
+                    + f'p1: {p1/tot*100:.1f}% ({max1/tot*100:.1f}%), '
+                    + f'p2: {p2/tot*100:.1f}% ({max2/tot*100:.1f}%), '
+                    + f'p3: {p3/tot*100:.1f}% ({max3/tot*100:.1f}%), '
+                    + f'p0: {p0/tot*100:.1f}%')
+
+    print()
