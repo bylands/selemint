@@ -21,6 +21,7 @@ def get_try(block: dict, block_nr: int, students: dict, specials,
         prio2 = block_data['prio2']
         prio3 = block_data['prio3']
         ks = student['class'] in ks_classes
+        c = None
 
         if (c:=set(prio1).intersection(set(specials['fixed_p1']))):
             c = list(c)[0]
@@ -37,15 +38,19 @@ def get_try(block: dict, block_nr: int, students: dict, specials,
                             opt_factor *= fac2
                         elif mod_key in prio3:
                             opt_factor *= fac3
-                        elif mod_key in specials['no_p0']:
+                        elif (mod_key in specials['no_p0']) or ks:
                             opt_factor = 0
                     
                         options += [mod_key] * opt_factor
+            if options:
+                c = choice(options)
 
-            c = choice(options)
-        block_data['choice'] = c
-        try_block[c]['slots'] -= 1
-        try_block[c]['IDs'].append(student['ID'])
+        if c:
+            block_data['choice'] = c
+            try_block[c]['slots'] -= 1
+            try_block[c]['IDs'].append(student['ID'])
+        else:
+            block_data['choice'] = None
 
     return try_block
 

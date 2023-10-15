@@ -128,3 +128,14 @@ def get_students_for_module(block:dict, module: str, students: list) -> list:
         classes.append(st['class'])
 
     return sorted(list(set(classes)))
+
+
+def get_incomplete_students(students: list, N_blocks: int) -> list:
+    incompletes = []
+
+    for student in students:
+        for i in range(1, N_blocks+1):
+            if student['block'+str(i)]['choice'] is None:
+                incompletes.append({'block': 'block'+str(i), 'ID': student['ID']})
+
+    return incompletes
