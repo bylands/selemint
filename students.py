@@ -118,3 +118,13 @@ def get_p0_students(block_nr: int, students: list) -> list:
             p0_students.append({'ID': student['ID'], 'weight': st['weight']})
 
     return p0_students
+
+
+def get_students_for_module(block:dict, module: str, students: list) -> list:
+    ids = block[module]['IDs']
+    classes = []
+    for id in ids:
+        st = next(s for s in students if s ['ID'] == id)
+        classes.append(st['class'])
+
+    return sorted(list(set(classes)))

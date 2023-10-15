@@ -1,8 +1,11 @@
 def init_blocks(blocks: dict) -> None:
-    for block in blocks.values():
-        for module, slots in block.items():
-            block[module] = {'slots': slots, 'prio1': 0, 'prio2': 0, 'prio3': 0, 
-                             'factor': 1, 'IDs': []}
+    for i, block in enumerate(blocks.values()):
+        for mod_key, mod_val in block.items():
+            slots = mod_val['slots']
+            mng_only = mod_val['mng_only']
+            block[mod_key] = {'slots': slots, 'mng_only': mng_only, 
+                                'prio1': 0, 'prio2': 0, 'prio3': 0, 
+                                'factor': 1, 'IDs': []}
 
 
 def calc_factors(blocks: dict) -> None:

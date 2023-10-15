@@ -4,8 +4,10 @@ from random import choice, random
 from blocks import get_block_stat
 
 
-def get_try(block: dict, block_nr: int, students: dict, fac1=100, fac2=50, fac3=20):
+def get_try(block: dict, block_nr: int, students: dict, specials,
+            fac1=100, fac2=50, fac3=20):
 
+    ks_classes = ('3p', '3q')
     try_block = deepcopy(block)
     block_key = 'block'+str(block_nr)
 
@@ -18,18 +20,21 @@ def get_try(block: dict, block_nr: int, students: dict, fac1=100, fac2=50, fac3=
         prio1 = block_data['prio1']
         prio2 = block_data['prio2']
         prio3 = block_data['prio3']
+        ks = student['class'] in ks_classes
+
         options = []
         for mod_key, mod_value in try_block.items():
-            if mod_value['slots'] != 0:
-                opt_factor = mod_value['factor']
-                if mod_key in prio1:
-                    opt_factor *= fac1
-                elif mod_key in prio2:
-                    opt_factor *= fac2
-                elif mod_key in prio3:
-                    opt_factor *= fac3
-            
-                options += [mod_key] * opt_factor
+            if not (ks and mod_value['mng_only']):
+                if mod_value['slots'] != 0:
+                    opt_factor = mod_value['factor']
+                    if mod_key in prio1:
+                        opt_factor *= fac1
+                    elif mod_key in prio2:
+                        opt_factor *= fac2
+                    elif mod_key in prio3:
+                        opt_factor *= fac3
+                
+                    options += [mod_key] * opt_factor
 
         c = choice(options)
         block_data['choice'] = c
@@ -50,7 +55,8 @@ def list_results(blocks: dict, block_nr: int, students: list, details=False) -> 
     p0 = stat_tot['totp0']
     tot = len(students)
 
-    print(f'block {block_nr}: p1: {p1/tot*100:.1f}%, p2: {p2/tot*100:.1f}%, p3: {p3/tot*100:.1f}%, p0: {p0/tot*100:.1f}%')
+    print(f'block {block_nr}: p1: {p1/tot*100:.1f}%, p2: {p2/tot*100:.1f}%, '
+          + f'p3: {p3/tot*100:.1f}%, p0: {p0/tot*100:.1f}%')
 
     if details:  
         for mod_key, mod_val in stat.items():
