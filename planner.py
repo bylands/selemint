@@ -22,21 +22,27 @@ def get_try(block: dict, block_nr: int, students: dict, specials,
         prio3 = block_data['prio3']
         ks = student['class'] in ks_classes
 
-        options = []
-        for mod_key, mod_value in try_block.items():
-            if not (ks and mod_value['mng_only']):
-                if mod_value['slots'] != 0:
-                    opt_factor = mod_value['factor']
-                    if mod_key in prio1:
-                        opt_factor *= fac1
-                    elif mod_key in prio2:
-                        opt_factor *= fac2
-                    elif mod_key in prio3:
-                        opt_factor *= fac3
-                
-                    options += [mod_key] * opt_factor
+        if (c:=set(prio1).intersection(set(specials['fixed_p1']))):
+            c = list(c)[0]
 
-        c = choice(options)
+        else:
+            options = []
+            for mod_key, mod_value in try_block.items():
+                if not (ks and mod_value['mng_only']):
+                    if mod_value['slots'] != 0:
+                        opt_factor = mod_value['factor']
+                        if mod_key in prio1:
+                            opt_factor *= fac1
+                        elif mod_key in prio2:
+                            opt_factor *= fac2
+                        elif mod_key in prio3:
+                            opt_factor *= fac3
+                        elif mod_key in specials['no_p0']:
+                            opt_factor = 0
+                    
+                        options += [mod_key] * opt_factor
+
+            c = choice(options)
         block_data['choice'] = c
         try_block[c]['slots'] -= 1
         try_block[c]['IDs'].append(student['ID'])
@@ -72,9 +78,9 @@ def list_results(blocks: dict, block_nr: int, students: list, details=False) -> 
                 tot = p1+p2+p3+p0
 
                 print(f'{mod_key}: {tot}/{slots}, '
-                    + f'p1: {p1/tot*100:.1f}% ({max1/tot*100:.1f}%), '
-                    + f'p2: {p2/tot*100:.1f}% ({max2/tot*100:.1f}%), '
-                    + f'p3: {p3/tot*100:.1f}% ({max3/tot*100:.1f}%), '
+                    + f'p1: {p1/tot*100:.1f}% ({max1/slots*100:.1f}%), '
+                    + f'p2: {p2/tot*100:.1f}% ({max2/slots*100:.1f}%), '
+                    + f'p3: {p3/tot*100:.1f}% ({max3/slots*100:.1f}%), '
                     + f'p0: {p0/tot*100:.1f}%')
 
     print()
