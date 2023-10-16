@@ -55,7 +55,7 @@ def get_students_stat(students: list, block: dict, block_nr: int) -> dict:
     return {'prio1': prio1, 'prio2': prio2, 'prio3': prio3, 'prio0': prio0}    
 
 
-def get_students_penalty(students: list, block_nr: int, fac2=1, fac3=2, fac0=10) -> int:
+def get_students_penalty(students: list, block_nr: int, fac2=1, fac3=10, fac0=100) -> int:
     block_key = 'block'+str(block_nr)
     penalty = 0
 

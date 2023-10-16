@@ -5,7 +5,7 @@ from blocks import get_block_stat
 
 
 def get_try(block: dict, block_nr: int, students: dict, specials,
-            fac1=100, fac2=50, fac3=20):
+            fac1=200, fac2=50, fac3=10):
 
     ks_classes = ('3p', '3q')
     try_block = deepcopy(block)
