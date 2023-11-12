@@ -1,4 +1,9 @@
 def init_blocks(blocks: dict) -> None:
+    """
+    Prepare blocks dictionary for modules.
+    Define fields for priorities (1 to 3), student factor, and IDs of assigned modules
+    """
+
     for i, block in enumerate(blocks.values()):
         for mod_key, mod_val in block.items():
             slots = mod_val['slots']
@@ -9,8 +14,11 @@ def init_blocks(blocks: dict) -> None:
 
 
 def calc_factors(blocks: dict) -> None:
+    """
+    Calcualte factors for modules: higher factor if more slots than selections.
+    """
     for block in blocks.values():
-        for mod_key, mod_value in block.items():
+        for mod_value in block.values():
             slots = mod_value['slots']
             prio1 = mod_value['prio1']
             prio2 = mod_value['prio2']
@@ -25,7 +33,9 @@ def calc_factors(blocks: dict) -> None:
 
 
 def get_block_stat(block: dict, block_nr: int, students: list) -> dict:
-
+    """
+    Return statistics about block.
+    """
     block_stat = {}
 
     total = totp1 = totp2 = totp3 = totp0 = 0
@@ -74,6 +84,13 @@ def get_block_stat(block: dict, block_nr: int, students: list) -> dict:
 
 def get_block_penalty(block: dict, block_nr: int, students: list, 
                       fac2=1, fac3=2, fac0=10, faclow=10, threshold=0.5) -> int:
+    """
+    Return penalty for block.
+    Parameters:
+    fac2, fac1: penalty for assigned module with 2nd or 3rd priority
+    fac0: penalty for assigned module without priority
+    faclow: penalty for module with fill ratio lower than threshold
+    """
     stat = get_block_stat(block, block_nr, students)
     low = 0
     for mod_key, mod_val in stat.items():

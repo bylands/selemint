@@ -6,8 +6,14 @@ from blocks import get_block_stat
 
 def get_try(block: dict, block_nr: int, students: dict, specials,
             fac1=200, fac2=50, fac3=10):
+    
+    """
+    Return a new block based on weighted random assignment.
+    Parameters:
+    fac1, fac2, fac3: Multiplicity of selections with priority 1, 2, or 3 in set of options
+    """
 
-    ks_classes = ('3p', '3q')
+    ks_classes = ('3p', '3q') # TODO: Include in specials
     try_block = deepcopy(block)
     block_key = 'block'+str(block_nr)
 
@@ -16,17 +22,22 @@ def get_try(block: dict, block_nr: int, students: dict, specials,
                         reverse=True)
 
     for student in students:
+        # get priorities for student
         block_data = student[block_key]
         prio1 = block_data['prio1']
         prio2 = block_data['prio2']
         prio3 = block_data['prio3']
         ks = student['class'] in ks_classes
+        
+        # Get choice c
         c = None
 
+        # If module with fixed assignments, selectt this option.
         if (c:=set(prio1).intersection(set(specials['fixed_p1']))):
             c = list(c)[0]
 
         else:
+            # Build list of (weighted) options.
             options = []
             for mod_key, mod_value in try_block.items():
                 if not (ks and mod_value['mng_only']):
@@ -42,20 +53,30 @@ def get_try(block: dict, block_nr: int, students: dict, specials,
                             opt_factor = 0
                     
                         options += [mod_key] * opt_factor
+            
+            # Randomly choose from options
             if options:
                 c = choice(options)
 
         if c:
+            # If successful, add selection to block dict
             block_data['choice'] = c
             try_block[c]['slots'] -= 1
             try_block[c]['IDs'].append(student['ID'])
         else:
+            # else add None to block dict
             block_data['choice'] = None
 
     return try_block
 
 
 def list_results(blocks: dict, block_nr: int, students: list, details=False) -> None:
+    """
+    Print summary data for block_nr (percentage distribution for priorities).
+    Parameter:
+    details: True for additional information (per module)
+    """
+    
     block = blocks[block_nr-1]
 
     stat = get_block_stat(block, block_nr, students)

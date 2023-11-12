@@ -1,4 +1,9 @@
 def init_students(students_raw: list, blocks: dict) -> list[dict]:
+    """
+    Returns list of student data.
+    Define fields for priorities and weights per block.
+    """
+    
     students = []
 
     for i, student in enumerate(students_raw):
@@ -29,13 +34,21 @@ def init_students(students_raw: list, blocks: dict) -> list[dict]:
     return students
 
 def calc_weights(students: list, N: int) -> None:
+    """
+    Calculate weights (number of priorities per block) for students.
+    """
+    
     for student in students:
         for i in range(N):
             s = student['block'+str(i+1)]
             s['weight'] = len(s['prio1']) + len(s['prio2']) + len(s['prio3'])
 
 
-def get_students_stat(students: list, block: dict, block_nr: int) -> dict:
+def get_students_stat(students: list, block_nr: int) -> dict:
+    """
+    Return dictionary with statistics about student selections.
+    """
+    
     block_key = 'block'+str(block_nr)
     prio1 = prio2 = prio3 = prio0 = 0
 
@@ -56,6 +69,13 @@ def get_students_stat(students: list, block: dict, block_nr: int) -> dict:
 
 
 def get_students_penalty(students: list, block_nr: int, fac2=1, fac3=10, fac0=100) -> int:
+    """
+    Return penalty for students.
+    Parameters:
+    fac2, fac3: penalty for assigned module with priority 2 or 3
+    fac0: penalty for assigned module without priority
+    """
+    
     block_key = 'block'+str(block_nr)
     penalty = 0
 
@@ -77,6 +97,10 @@ def get_students_penalty(students: list, block_nr: int, fac2=1, fac3=10, fac0=10
 
 
 def update_students(block: dict, block_nr: int, students: list) -> None:
+    """
+    Update student data (upon getting a new try for a block)
+    """
+    
     block_key = 'block'+str(block_nr)
 
     for mod_key, mod_val in block.items():
@@ -87,25 +111,11 @@ def update_students(block: dict, block_nr: int, students: list) -> None:
             student['choice'] = mod_key
 
 
-# def get_p0_students(block: dict, block_nr: int, students: list) -> list:
-#     p0_students = []
-#     block_key = 'block'+str(block_nr)
-
-#     for mod_key, mod_val in block.items():
-#         ids = mod_val['IDs']
-#         for id in ids:
-#             st = next(s for s in students if s['ID'] == id)
-#             student = st[block_key]
-
-#             if not (mod_key in student['prio1'] or 
-#                     mod_key in student['prio2'] or 
-#                     mod_key in student['prio3']):
-#                 p0_students.append({'ID': st['ID'], 'weight': student['weight']})
-
-#     return p0_students
-
-
 def get_p0_students(block_nr: int, students: list) -> list:
+    """
+    Return list of students who have been assigned module without priority in block_nr.
+    """
+    
     p0_students = []
     block_key = 'block'+str(block_nr)
 
@@ -120,7 +130,11 @@ def get_p0_students(block_nr: int, students: list) -> list:
     return p0_students
 
 
-def get_students_for_module(block:dict, module: str, students: list) -> list:
+def get_classes_for_module(block:dict, module: str, students: list) -> list:
+    """
+    Return list of classes of students in given module.
+    """
+
     ids = block[module]['IDs']
     classes = []
     for id in ids:
@@ -131,6 +145,10 @@ def get_students_for_module(block:dict, module: str, students: list) -> list:
 
 
 def get_incomplete_students(students: list, N_blocks: int) -> list:
+    """
+    Return list of students with missing assignments.
+    """
+    
     incompletes = []
 
     for student in students:
